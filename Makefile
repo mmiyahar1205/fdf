@@ -1,19 +1,18 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRC = main.c split.c clean.c init.c utils.c visual.c get_next_line.c get_next_line_utils.c
+SRC = main.c split.c clean.c init.c utils.c visual.c gnl_utils.c mem_utils.c vis_utils.c
 OBJ = $(SRC:.c=.o)
 NAME = fdf
 MLX_DIR = ./minilibx
 MLX = $(MLX_DIR)/libmlx.a
-FRAMEWORKS = -framework OpenGL -framework AppKit  # Only for macOS
+LIBX_FLAGS =  -L$(MLX_DIR) -lmlx -L/usr/X11R6/lib -lX11 -lXext -lXrender -lm
 
 all: $(NAME)
 
 $(NAME): $(OBJ) $(MLX)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(MLX) $(FRAMEWORKS)
+	$(CC) $(CFLAGS) $(OBJ) $(MLX) $(LIBX_FLAGS) -o $(NAME)
 
 $(MLX):
-	# Compile MiniLibX if not already compiled (C-only)
 	make -C $(MLX_DIR)
 
 clean:

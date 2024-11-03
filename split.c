@@ -1,26 +1,39 @@
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmiyahar <marimiya@sas.upenn.edu>          #+#  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024-11-03 03:01:20 by mmiyahar          #+#    #+#             */
+/*   Updated: 2024-11-03 03:01:20 by mmiyahar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
-int	count_words(const char *s, char c) {
+int	count_words(const char *s, char c)
+{
 	int	count;
 	int	in_substring;
 
-    count = 0;
-    in_substring = 0;
-	while (*s) 
-    {
-		if (*s != c && in_substring == 0) 
-        {
+	count = 0;
+	in_substring = 0;
+	while (*s)
+	{
+		if (*s != c && in_substring == 0)
+		{
 			in_substring = 1;
 			count++;
-		} else if (*s == c)
+		}
+		else if (*s == c)
 			in_substring = 0;
 		s++;
 	}
 	return (count);
 }
 
-char	*word_dup(const char *s, int start, int finish) 
+char	*word_dup(const char *s, int start, int finish)
 {
 	char	*word;
 	int		i;
@@ -35,31 +48,30 @@ char	*word_dup(const char *s, int start, int finish)
 	return (word);
 }
 
-char	**ft_split(char const *s, char c) {
-	char	**split;
-	int		i;
-	int		j;
-	int		start;
+char	**ft_split(char const *s, char c)
+{
+	char		**split;
+	int			i;
+	const char	*start;
 
 	i = 0;
-	j = 0;
-	start = -1;
-	if (!s)
-		return (NULL);
 	split = malloc((count_words(s, c) + 1) * sizeof(char *));
 	if (!split)
 		return (NULL);
-	while (s[i]) {
-		if (s[i] != c && start < 0)
-			start = i;
-		else if ((s[i] == c || s[i + 1] == '\0') && start >= 0) {
-			split[j++] = word_dup(s, start, i + (s[i] != c));
-			start = -1;
+	while (*s)
+	{
+		if (*s != c)
+		{
+			start = s;
+			while (*s && *s != c)
+				s++;
+			split[i] = word_dup(start, 0, s - start);
+			if (!split[i++])
+				return (NULL);
 		}
-		i++;
+		else
+			s++;
 	}
-	if (start >= 0)
-		split[j++] = word_dup(s, start, i);
-	split[j] = NULL;
+	split[i] = NULL;
 	return (split);
 }
