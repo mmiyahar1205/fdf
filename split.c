@@ -67,7 +67,7 @@ char	**ft_split(char const *s, char c)
 				s++;
 			split[i] = word_dup(start, 0, s - start);
 			if (!split[i++])
-				return (NULL);
+				return (free_strlist(split), NULL);
 		}
 		else
 			s++;

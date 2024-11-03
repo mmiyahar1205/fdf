@@ -25,20 +25,22 @@ int	init_vis(t_data *data)
 		return (write(2, "Failed to create image\n", 23));
 	data->img_data = mlx_get_data_addr(data->img_ptr, &data->bpp,
 			&data->line_len, &data->endian);
-    if (!data->img_data)
+	if (!data->img_data)
 		return (write(2, "Failed to create image\n", 23));
 	return (0);
 }
 
-t_pos	apply_isometric_projection(t_pos point, int scale, int offset_x,
-		int offset_y)
+t_pos	apply_isometric_projection(t_pos point, float scale, float offset_x,
+		float offset_y)
 {
 	t_pos	iso_point;
 
-	iso_point.x = (point.x - point.y) * cos(M_PI / 6) * scale + offset_x;
-	iso_point.y = (point.x + point.y) * sin(M_PI / 6) * scale - point.z * (scale
-			/ 4) + offset_y;
-	iso_point.z = point.z;
+	iso_point.x = (point.x - point.y) * 1 / sqrt(2);
+	iso_point.y = (point.x + point.y - point.z * 2) * 1 / sqrt(6);
+	iso_point.z = (point.x + point.y + point.z) * 1 / sqrt(3);
+	iso_point.x = iso_point.x * scale + offset_x;
+	iso_point.y = iso_point.y * scale + offset_y;
+	iso_point.z = iso_point.z * scale;
 	iso_point.color = point.color;
 	return (iso_point);
 }
@@ -68,7 +70,7 @@ void	drawline(t_data *data, t_pos start, t_pos dest)
 	}
 }
 
-void	drawmap_help(t_data *data, int scale, int offset_x, int offset_y)
+void	drawmap_help(t_data *data, float scale, float offset_x, float offset_y)
 {
 	int	x;
 	int	y;
@@ -96,9 +98,9 @@ void	drawmap_help(t_data *data, int scale, int offset_x, int offset_y)
 
 int	drawmap(t_data *data)
 {
-	int	scale;
-	int	offset_x;
-	int	offset_y;
+	float	scale;
+	float	offset_x;
+	float	offset_y;
 
 	get_scale(data, &scale, &offset_x, &offset_y);
 	drawmap_help(data, scale, offset_x, offset_y);

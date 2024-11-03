@@ -18,10 +18,10 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	if (argc != 2)
-		return (write(1, "Usage: ./fdf <map_file>\n", 23));
+		return (write(2, "Usage: ./fdf <map_file>\n", 23));
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
-		return (write(1, "Error opening file\n", 19));
+		return (write(2, "Error opening file\n", 19));
 	getmap(fd, &data);
 	close(fd);
 	if (init_vis(&data) != 0)

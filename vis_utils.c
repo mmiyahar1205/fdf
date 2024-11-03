@@ -12,15 +12,15 @@
 
 #include "fdf.h"
 
-int	get_minmax(t_data *data, int *min_x, int *max_x, int *min_y)
+float	get_minmax(t_data *data, float *min_x, float *max_x, float *min_y)
 {
 	int		y;
 	int		x;
-	int		max_y;
+	float	max_y;
 	t_pos	projected_point;
 
 	y = -1;
-	max_y = INT_MIN;
+	max_y = -1e9;
 	while (++y < data->rows)
 	{
 		x = -1;
@@ -41,16 +41,16 @@ int	get_minmax(t_data *data, int *min_x, int *max_x, int *min_y)
 	return (max_y);
 }
 
-void	get_scale(t_data *data, int *scale, int *offset_x, int *offset_y)
+void	get_scale(t_data *data, float *scale, float *offset_x, float *offset_y)
 {
-	int	min_x;
-	int	max_x;
-	int	min_y;
-	int	max_y;
+	float	min_x;
+	float	max_x;
+	float	min_y;
+	float	max_y;
 
-	min_x = INT_MAX;
-	max_x = INT_MIN;
-	min_y = INT_MAX;
+	min_x = 1e9;
+	max_x = -1e9;
+	min_y = 1e9;
 	max_y = get_minmax(data, &min_x, &max_x, &min_y);
 	*scale = fmin(800 / (max_x - min_x), 800 / (max_y - min_y));
 	*offset_x = (1000 - (max_x + min_x) * (*scale)) / 2;

@@ -36,7 +36,7 @@ int	hex_to_int(const char *hex_str)
 	int	digit;
 
 	if (!hex_str)
-		return (16777215);
+		return (0xFFFFFF);
 	if (hex_str[0] == '0' && (hex_str[1] == 'x' || hex_str[1] == 'X'))
 	{
 		hex_str += 2;

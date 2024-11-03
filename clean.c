@@ -19,7 +19,7 @@ int	close_window(t_data *data)
 	mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
 	free_map(data->pos, data->rows);
-	exit(1);
+	exit(0);
 	return (0);
 }
 
