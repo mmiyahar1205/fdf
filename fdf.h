@@ -24,7 +24,7 @@
 
 # define ESC_KEY 65307
 # define CLOSE_EVENT 17
-# define BUFFER_SIZE 4
+# define BUFFER_SIZE 2048
 
 typedef struct s_pos
 {
@@ -57,8 +57,8 @@ void		getmap(int fd, t_data *data);
 int			ft_atoi(const char *str);
 void		free_map(t_pos **pos, int rows);
 int			init_vis(t_data *data);
-t_pos		apply_isometric_projection(t_pos point, int scale, int offset_x,
-				int offset_y);
+t_pos		apply_isometric_projection(t_pos point, float scale, float offset_x,
+				float offset_y);
 void		drawline(t_data *data, t_pos start, t_pos dest);
 int			drawmap(t_data *data);
 void		*ft_realloc(void *ptr, size_t new_size);
@@ -77,7 +77,8 @@ void		parse_line_err(char *line, t_data *data, char **values);
 void		free_strlist(char **str);
 void		free_map(t_pos **pos, int rows);
 int			get_gradient_color(int start_color, int dest_color, float ratio);
-void		get_scale(t_data *data, int *scale, int *offset_x, int *offset_y);
+void		get_scale(t_data *data, float *scale, float *offset_x,
+				float *offset_y);
 void		malloc_err(void);
 
 #endif
